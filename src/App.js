@@ -2,6 +2,7 @@ import { useState } from "react";
 import Game from "./utils/2048";
 import Board from "./components/Board";
 import Tile from "./components/Tile";
+import GameOver from "./components/GameOver";
 import "./App.css";
 
 var game = new Game();
@@ -16,6 +17,7 @@ function App() {
 
   function play(move) {
     setBoard(game.play(move));
+    if (game.gameStatus === "lost") setStatus("game-over");
   }
 
   function playMove(e) {
@@ -62,6 +64,13 @@ function App() {
     addKeyboardEvent();
   }
 
+  function resetGame() {
+    game = new Game();
+    setStatus(null);
+    setBoard(game.board);
+    removeKeyboardEvent();
+  }
+
   return (
     <div className="App">
       <header className="header">
@@ -76,6 +85,7 @@ function App() {
         {board.flat().map((tile, idx) => (
           <Tile value={tile} key={`tile-${idx}`} />
         ))}
+        <GameOver reset={resetGame} isOpen={status === "game-over"} />
       </Board>
       <footer>Created by Bar Amit</footer>
     </div>
