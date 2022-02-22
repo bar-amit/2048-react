@@ -32,18 +32,29 @@ class TwoThousandFourtyEight {
   play(direction) {
     if (this.gameStatus != "playing") return this.board;
 
+    var {
+      left: isLeftMoveLegal,
+      right: isRightMoveLegal,
+      up: isUpMoveLegal,
+      down: isDownMoveLegal,
+    } = this.getLegalMoves();
+
     switch (direction) {
       case "left":
-        this.moveLeft();
+        if (isLeftMoveLegal) this.moveLeft();
+        else return this.board;
         break;
       case "right":
-        this.moveRight();
+        if (isRightMoveLegal) this.moveRight();
+        else return this.board;
         break;
       case "up":
-        this.moveUp();
+        if (isUpMoveLegal) this.moveUp();
+        else return this.board;
         break;
       case "down":
-        this.moveDown();
+        if (isDownMoveLegal) this.moveDown();
+        else return this.board;
         break;
       default:
         return this.board;
@@ -100,10 +111,32 @@ class TwoThousandFourtyEight {
   }
 
   getLegalMoves() {
-    let isLeftMoveLegal = this.board.some((row) => row[0] == 0);
-    let isRightMoveLegal = this.board.some((row) => row[3] == 0);
-    let isUpMoveLegal = this.board[0].some((tile) => tile == 0);
-    let isDownMoveLegal = this.board[3].some((tile) => tile == 0);
+    let isLeftMoveLegal = this.board.some(
+      (row) => (!row[0] && row[1]) || (!row[1] && row[2]) || (!row[2] && row[3])
+    );
+    let isRightMoveLegal = this.board.some(
+      (row) => (row[0] && !row[1]) || (row[1] && !row[2]) || (row[2] && !row[3])
+    );
+    let isUpMoveLegal =
+      this.board[0].some(
+        (tile, idx) =>
+          !tile &&
+          (this.board[1][idx] || this.board[2][idx] || this.board[3][idx])
+      ) ||
+      this.board[1].some(
+        (tile, idx) => !tile && (this.board[2][idx] || this.board[3][idx])
+      ) ||
+      this.board[2].some((tile, idx) => !tile && this.board[3][idx]);
+    let isDownMoveLegal =
+      this.board[0].some(
+        (tile, idx) =>
+          tile &&
+          (!this.board[1][idx] || !this.board[2][idx] || !this.board[3][idx])
+      ) ||
+      this.board[1].some(
+        (tile, idx) => tile && (!this.board[2][idx] || !this.board[3][idx])
+      ) ||
+      this.board[2].some((tile, idx) => tile && !this.board[3][idx]);
 
     let isHorizontalMergeable = this.board.some(isMergeable);
     let isVerticalMergeable = [0, 1, 2, 3].some((idx) =>
@@ -139,7 +172,11 @@ function setTile(board, tileNumber, value) {
 }
 
 function isMergeable(arr) {
-  return arr[0] == arr[1] || arr[1] == arr[2] || arr[2] == arr[3];
+  return (
+    (arr[0] == arr[1] && arr[0]) ||
+    (arr[1] == arr[2] && arr[1]) ||
+    (arr[2] == arr[3] && arr[2])
+  );
 }
 function getRandomTileValue() {
   return Math.random() <= 0.1 ? 4 : 2;
