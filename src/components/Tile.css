@@ -1,0 +1,42 @@
+.tile {
+  --color: black;
+  --bg-color: white;
+  --border-color: black;
+  color: var(--color);
+  font-weight: 900;
+  text-align: center;
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tile_theme_0 {
+  --bg-color: rgb(207, 205, 205);
+  --border-color: transparent;
+}
+
+.tile_theme_2 {
+  --color: rgb(115, 149, 211);
+  --bg-color: white;
+  --border-color: black;
+}
+
+.tile_theme_4 {
+  --color: rgb(40, 156, 185);
+  --bg-color: white;
+  --border-color: black;
+}
+
+.tile_theme_8 {
+  --color: rgb(66, 158, 89);
+  --bg-color: white;
+  --border-color: black;
+}
+
+.tile_theme_16 {
+  --color: rgb(162, 189, 63);
+  --bg-color: white;
+  --border-color: black;
+}
