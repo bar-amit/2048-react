@@ -1,4 +1,4 @@
-class TwoThousandFourtyEight {
+class TwoThousandFortyEight {
   constructor() {
     this.board = [
       [0, 0, 0, 0],
@@ -164,13 +164,13 @@ function squeezLeft(arr) {
   return res;
 }
 
-export default TwoThousandFourtyEight;
+export default TwoThousandFortyEight;
 
 //////////////////////
 // tests
 //////////////////////
 
-// let game = new TwoThousandFourtyEight();
+// let game = new TwoThousandFortyEight();
 // console.log(game.board);
 // game.initialize();
 // console.log(game.board);
