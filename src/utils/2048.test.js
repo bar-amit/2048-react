@@ -7,6 +7,17 @@ function boardEquals(board1, board2) {
   return flatBoard1.every((tile, idx) => tile === flatBoard2[idx]);
 }
 
+function boardEqualsWithOneRandomDeference(board1, board2) {
+  let flatBoard1 = board1.flat();
+  let flatBoard2 = board2.flat();
+
+  return flatBoard1.reduce((acc, tile, idx) => {
+    if (tile === flatBoard2[idx]) return acc;
+    if (acc === null) return true;
+    return false;
+  }, null);
+}
+
 var $2048 = new TwoThousandFortyEight();
 
 describe("Module exposes the relevant assets", () => {
@@ -217,5 +228,201 @@ describe("Ilegal move won't change the board", () => {
     $2048.play("right");
 
     expect(boardEquals(testBoard, $2048.board)).toBe(true);
+  });
+});
+
+describe("Makes simple moves", () => {
+  it("moves right", () => {
+    $2048.board = [
+      [0, 2, 0, 0],
+      [0, 4, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ];
+    $2048.play("right");
+    let res = boardEqualsWithOneRandomDeference($2048.board, [
+      [0, 0, 0, 2],
+      [0, 0, 0, 4],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ]);
+
+    expect(res).toBe(true);
+  });
+  it("moves left", () => {
+    $2048.board = [
+      [0, 2, 0, 0],
+      [0, 4, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ];
+    $2048.play("left");
+    let res = boardEqualsWithOneRandomDeference($2048.board, [
+      [2, 0, 0, 0],
+      [4, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ]);
+
+    expect(res).toBe(true);
+  });
+  it("moves up", () => {
+    $2048.board = [
+      [0, 0, 0, 0],
+      [0, 2, 4, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ];
+    $2048.play("up");
+    let res = boardEqualsWithOneRandomDeference($2048.board, [
+      [0, 2, 4, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ]);
+
+    expect(res).toBe(true);
+  });
+  it("moves down", () => {
+    $2048.board = [
+      [0, 2, 0, 0],
+      [0, 4, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ];
+    $2048.play("down");
+    let res = boardEqualsWithOneRandomDeference($2048.board, [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 2, 0, 0],
+      [0, 4, 0, 0],
+    ]);
+
+    expect(res).toBe(true);
+  });
+});
+
+describe("Merge tiles", () => {
+  it("Simple merge down", () => {
+    $2048.board = [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 2, 0, 0],
+      [0, 2, 0, 0],
+    ];
+    $2048.play("down");
+    let res = boardEqualsWithOneRandomDeference($2048.board, [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 4, 0, 0],
+    ]);
+
+    expect(res).toBe(true);
+  });
+  it("Simple merge right", () => {
+    $2048.board = [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 8, 8, 0],
+      [0, 4, 0, 0],
+    ];
+    $2048.play("right");
+    let res = boardEqualsWithOneRandomDeference($2048.board, [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 16],
+      [0, 0, 0, 4],
+    ]);
+
+    expect(res).toBe(true);
+  });
+  it("Double merge left", () => {
+    $2048.board = [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [2, 2, 2, 2],
+      [0, 2, 0, 0],
+    ];
+    $2048.play("left");
+    let res = boardEqualsWithOneRandomDeference($2048.board, [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [4, 4, 0, 0],
+      [2, 0, 0, 0],
+    ]);
+
+    expect(res).toBe(true);
+  });
+  it("Merge up - three tiles", () => {
+    $2048.board = [
+      [0, 0, 0, 0],
+      [0, 2, 0, 0],
+      [0, 2, 0, 0],
+      [0, 2, 0, 0],
+    ];
+    $2048.play("up");
+    let res = boardEqualsWithOneRandomDeference($2048.board, [
+      [0, 4, 0, 0],
+      [0, 2, 0, 0],
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+    ]);
+
+    expect(res).toBe(true);
+  });
+  it("Merge with gap", () => {
+    $2048.board = [
+      [4, 2, 16, 512],
+      [4, 0, 0, 0],
+      [8, 2, 0, 512],
+      [0, 4, 16, 512],
+    ];
+    $2048.play("down");
+    let res = boardEqualsWithOneRandomDeference($2048.board, [
+      [0, 0, 0, 0],
+      [0, 0, 0, 0],
+      [8, 4, 0, 512],
+      [8, 4, 32, 1024],
+    ]);
+
+    expect(res).toBe(true);
+  });
+});
+
+describe("Game status is changing correctly", () => {
+  beforeEach(() => {
+    $2048 = new TwoThousandFortyEight();
+    $2048.initialize();
+  });
+  it("Should change to lost if there aren't legal moves", () => {
+    $2048.board = [
+      [16, 16, 8, 16],
+      [16, 4, 2, 16],
+      [2, 16, 8, 4],
+      [4, 2, 4, 2],
+    ];
+    $2048.play("right");
+
+    expect($2048.gameStatus).toBe("playing");
+
+    $2048.play("down");
+
+    expect($2048.gameStatus).toBe("lost");
+  });
+  it("Should change to won if 2048 is achieved", () => {
+    $2048.board = [
+      [16, 4, 512, 512],
+      [16, 4, 2, 1024],
+      [2, 16, 8, 4],
+      [4, 2, 4, 2],
+    ];
+    $2048.play("right");
+
+    expect($2048.gameStatus).toBe("playing");
+
+    $2048.play("down");
+
+    expect($2048.gameStatus).toBe("won");
   });
 });
