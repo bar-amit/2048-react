@@ -6,7 +6,7 @@ Most game functions are working but it is still a work in progress.
 
 ### Current features:
 
-- The project builds with the creat-react-app scripts.
+- The project builds with the create-react-app scripts.
 - The player can start the game and make moves.
 - Game behaviour is consistent and with accordings to the rules.
 - When the game is lost, it stops and notify the player.
