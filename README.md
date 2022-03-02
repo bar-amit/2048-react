@@ -1,6 +1,23 @@
-# Getting Started with Create React App
+# 2048
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project is an implementation of the 2048 game.
+
+Most game functions are working but it is still a work in progress.
+
+### Current features:
+
+- The project builds with the creat-react-app scripts.
+- The player can start the game and make moves.
+- Game behaviour is consistent and with accordings to the rules.
+- When the game is lost, it stops and notify the player.
+- There is a full testing coverage to the game module.
+
+### Missing features:
+
+- Handle the situation when the player wins the game.
+- Tests for the react components.
+- Styles and improved UI design.
+- A live app.
 
 ## Available Scripts
 
