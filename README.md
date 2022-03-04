@@ -4,6 +4,8 @@ This project is an implementation of the 2048 game.
 
 Most game functions are working but it is still a work in progress.
 
+The app is deployed to [Github Pages](https://bar-amit.github.io/2048-react/).
+
 ### Current features:
 
 - The project builds with the create-react-app scripts.
@@ -17,7 +19,6 @@ Most game functions are working but it is still a work in progress.
 - Handle the situation when the player wins the game.
 - Tests for the react components.
 - Styles and improved UI design.
-- A live app.
 
 ## Available Scripts
 
