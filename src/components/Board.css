@@ -6,4 +6,8 @@
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   position: relative;
+  border: 2px solid;
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 0 30px black;
+  border-radius: 3px;
 }

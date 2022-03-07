@@ -74,20 +74,22 @@ function App() {
   return (
     <div className="App">
       <header className="header">
-        <h1>2048</h1>
+        <h1 className="header__title">2048</h1>
       </header>
-      {status === null && (
-        <button className="button" type="button" onClick={startGame}>
-          start
-        </button>
-      )}
-      <Board>
-        {board.flat().map((tile, idx) => (
-          <Tile value={tile} key={`tile-${idx}`} />
-        ))}
-        <GameOver reset={resetGame} isOpen={status === "game-over"} />
-      </Board>
-      <footer>Created by Bar Amit</footer>
+      <main className="main">
+        <Board>
+          {status === null && (
+            <button className="button" type="button" onClick={startGame}>
+              start game
+            </button>
+          )}
+          {board.flat().map((tile, idx) => (
+            <Tile value={tile} key={`tile-${idx}`} />
+          ))}
+          <GameOver reset={resetGame} isOpen={status === "game-over"} />
+        </Board>
+      </main>
+      <footer className="footer">Created by Bar Amit</footer>
     </div>
   );
 }
